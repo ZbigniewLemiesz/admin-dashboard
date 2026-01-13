@@ -1,1 +1,13 @@
-<p>layout works!</p>
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Admin Panel</h2>
+    <nav>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/employees" routerLinkActive="active">Employees</a>
+      <a routerLink="/roles" routerLinkActive="active">Roles</a>
+      <a routerLink="/teams" routerLinkActive="active">Teams</a></nav>
+  </aside>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
