@@ -1,0 +1,118 @@
+.employees-dashboard {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background: #f3f4f6; // delikatne tło dashboardu
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.employees-card {
+  width: 100%;
+  max-width: 1200px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  padding: 16px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.employees-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+
+.employees-card__header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.employees-table-wrapper {
+  width: 100%;
+  overflow-x: auto; // klucz: scroll poziomy na małych ekranach
+}
+
+/* Tabela dostaje minimalną szerokość, żeby kolumny się nie „łamały” */
+table {
+  width: 100%;
+  min-width: 600px;
+}
+
+/* Nagłówki */
+th.mat-header-cell {
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Komórki */
+td.mat-cell {
+  font-size: 14px;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Wiersze – hover */
+tr.mat-row:hover {
+  background: #f3f4f6;
+}
+
+/* Wrapper wewnątrz nagłówka */
+.th-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* Wersja dla kolumny akcji (bez filtra, wyrównanie do prawej) */
+.th-content--actions {
+  align-items: flex-end;
+}
+
+/* Filtr w nagłówku – mały, kompaktowy */
+.th-filter {
+  width: 100%;
+}
+
+.th-filter .mat-form-field-wrapper {
+  padding-bottom: 0; // usuń dolny padding, żeby całość nie była wysoka
+}
+
+.th-filter .mat-form-field-outline {
+  // delikatniejsze obramowanie
+  color: #d1d5db;
+}
+
+.th-filter .mat-input-element {
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .employees-card {
+    padding: 12px;
+    border-radius: 0; // jeśli chcesz full-width na mobile
+  }
+
+  th.mat-header-cell {
+    font-size: 11px;
+  }
+
+  td.mat-cell {
+    font-size: 13px;
+  }
+
+  .employees-card__header h2 {
+    font-size: 18px;
+  }
+}
