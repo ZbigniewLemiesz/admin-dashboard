@@ -1,1 +1,81 @@
-<p>employee-edit works!</p>
+<div class="employees-dashboard">
+  <div class="employees-card">
+    <div class="employees-card__header">
+      <h2>{{ isEditMode ? "Edit employee" : "Create employee" }}</h2>
+    </div>
+
+    <div class="employees-form-wrapper">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- ID (tylko w trybie edycji) -->
+        <div *ngIf="isEditMode" class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>ID</mat-label>
+            <input matInput formControlName="id" readonly />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstName" />
+            <mat-error *ngIf="form.get('firstName')?.invalid">
+              First name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Last name</mat-label>
+            <input matInput formControlName="lastName" />
+            <mat-error *ngIf="form.get('lastName')?.invalid">
+              Last name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="form.get('email')?.invalid">
+              Enter a valid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <input type="hidden" formControlName="version" />
+
+        <div class="form-actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid || isSaving"
+          >
+            <ng-container *ngIf="!isSaving">
+              {{ isEditMode ? "Save changes" : "Create employee" }}
+            </ng-container>
+            <ng-container *ngIf="isSaving">
+              <mat-progress-spinner
+                mode="indeterminate"
+                diameter="20"
+                strokeWidth="3"
+              ></mat-progress-spinner>
+            </ng-container>
+          </button>
+
+          <button
+            mat-button
+            color="accent"
+            type="button"
+            (click)="goBack()"
+            [disabled]="isSaving"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

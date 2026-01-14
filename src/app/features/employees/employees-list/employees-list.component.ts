@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { Subject, merge, of } from 'rxjs';
 import { startWith, switchMap, catchError, debounceTime } from 'rxjs/operators';
 
 import { Employee } from '../../../shared/models/employee/employee.model';
 import { EmployeeService } from '../../../core/services/employee.service';
+
 
 @Component({
   selector: 'app-employees-list',
@@ -24,16 +26,15 @@ export class EmployeesListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     const debouncedFilters$ = this.filterChanged$.pipe(debounceTime(1000));
 
-    merge(
-      this.sort.sortChange,
-      this.paginator.page,
-      debouncedFilters$
-    )
+    merge(this.sort.sortChange, this.paginator.page, debouncedFilters$)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -70,5 +71,13 @@ export class EmployeesListComponent implements AfterViewInit {
     this.filters[field] = value;
     this.paginator.pageIndex = 0; // reset strony
     this.filterChanged$.next({ ...this.filters });
+  }
+
+  editEmployee(id: number){
+    this.router.navigate(['/employees', id, 'edit']);
+  }
+
+  addEmployee(){
+    this.router.navigate(['/employees/new']);
   }
 }
