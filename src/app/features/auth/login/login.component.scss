@@ -1,0 +1,20 @@
+/* --- LOGIN: komunikat błędu --- */
+.login-error {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+/* --- LOGIN: przycisk główny --- */
+.login-primary-btn {
+  min-width: 140px;
+}
+
+/* --- LOGIN: drobny tekst pomocniczy --- */
+.login-hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: -8px;
+}

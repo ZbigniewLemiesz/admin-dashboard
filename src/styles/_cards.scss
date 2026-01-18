@@ -1,0 +1,31 @@
+/* --- GŁÓWNY WRAPPER (taki sam jak w liście) --- */
+.employees-dashboard {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background: #f3f4f6;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* --- KARTA (spójna z listą) --- */
+.employees-card {
+  width: 100%;
+  max-width: 800px; // formularz zwykle węższy niż tabela
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+/* --- HEADER --- */
+.employees-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4px;
+}

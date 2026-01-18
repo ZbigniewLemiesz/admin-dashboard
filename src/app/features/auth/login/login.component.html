@@ -1,1 +1,65 @@
-<p>login works!</p>
+<div class="employees-dashboard">
+  <div class="employees-card">
+    <div class="employees-card__header">
+      <h2>Logowanie</h2>
+    </div>
+
+    <form
+      class="employees-form-wrapper"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+       <!-- LOGIN -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Login</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="username"
+            autocomplete="username"
+          />
+          <mat-error *ngIf="form.get('username')?.hasError('required')">
+            Login jest wymagany
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- HASŁO -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Hasło</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+          <mat-error *ngIf="form.get('password')?.hasError('required')">
+            Hasło jest wymagane
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+       <!-- BŁĄD LOGOWANIA -->
+      <div *ngIf="error" class="login-error">
+        {{ error }}
+      </div>
+
+      <!-- AKCJE -->
+      <div class="form-actions">
+        <button
+          mat-flat-button
+          color="primary"
+          class="login-primary-btn"
+          type="submit"
+          [disabled]="form.invalid || isSubmitting"
+        >
+          {{ isSubmitting ? 'Logowanie...' : 'Zaloguj' }}
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
