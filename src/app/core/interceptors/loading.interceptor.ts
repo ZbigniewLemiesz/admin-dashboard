@@ -18,11 +18,10 @@ export class LoadingInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    // start request → pokaż spinner
+    
     this.loading.show();
 
     return next.handle(req).pipe(
-      // finalize wykona się zawsze (success albo error)
       finalize(() => {
         this.loading.hide();
       }),
