@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -9,23 +9,28 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<void> {
+  login(email: string, password: string): Observable<HttpResponse<void>> {
     const body = new HttpParams()
-      .set('username', username)
+      .set('email', email)
       .set('password', password);
 
     return this.http.post<void>(
       `${this.api}/login`,
-      body,
+      body.toString(),
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        withCredentials: true,  
+        observe: 'response'
       }
     );
   }
 
-  logout(): Observable<void> {
-    return this.http.post<void>(`${this.api}/logout`, {});
+  logout(): Observable<HttpResponse<void>> {
+    return this.http.post<void>(`${this.api}/logout`, null,{
+      withCredentials: true,
+      observe: 'response'
+    });
   }
 }

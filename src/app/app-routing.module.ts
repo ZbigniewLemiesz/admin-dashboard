@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { AuthGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
   // start aplikacji → login
@@ -19,7 +18,6 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
@@ -41,13 +39,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./features/teams/teams.module').then((m) => m.TeamsModule),
       },
-
-      // wildcard
-      { path: '**', redirectTo: 'auth/login' }
     ],
   },
-
-  
+  // wildcard
+  { path: '**', redirectTo: 'auth/login' },
 ];
 
 @NgModule({

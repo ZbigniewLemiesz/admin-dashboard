@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
@@ -34,14 +34,22 @@ export class LoginComponent implements OnInit {
     this.isSubmitting = true;
     this.error = '';
 
-    const username = this.form.get('username')!.value;
+    const email = this.form.get('email')!.value;
     const password = this.form.get('password')!.value;
 
-    this.auth.login(username, password).subscribe({
-      next: () => this.router.navigateByUrl('/dashboard'),
-      error: () => {
-        this.error = 'Błędny login lub hasło';
+    this.auth.login(email, password).subscribe({
+      next: (res) => {
         this.isSubmitting = false;
+        if (res.status === 204 || res.status === 200) {
+          this.router.navigateByUrl('/dashboard');
+        } else {
+          this.error = 'Nieoczekiwana odpowiedź serwera';
+        }
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.error =
+          err.status === 401 ? 'Błędny email lub hasło' : 'Błąd serwera';
       },
     });
   }

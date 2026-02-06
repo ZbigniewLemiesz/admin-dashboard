@@ -7,7 +7,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { CredentialsInterceptor } from './core/interceptors/credentials.interceptor';
+import { AuthErrorInterceptor } from './core/interceptors/auth-error.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,16 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     BrowserAnimationsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CredentialsInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthErrorInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
