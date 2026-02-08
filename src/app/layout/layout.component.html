@@ -1,13 +1,53 @@
-<div class="layout">
-  <aside class="sidebar">
-    <h2>Admin Panel</h2>
-    <nav>
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/employees" routerLinkActive="active">Employees</a>
-      <a routerLink="/roles" routerLinkActive="active">Roles</a>
-      <a routerLink="/teams" routerLinkActive="active">Teams</a></nav>
-  </aside>
-  <main class="content">
+<mat-toolbar color="primary" class="topbar">
+  <button mat-icon-button class="burger" (click)="drawer.toggle()" aria-label="Otwórz menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="title">Admin Panel</span>
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="auth.me$ | async as me; else loggedOut">
+    <span class="user-email" [title]="me.email">{{ me.email }}</span>
+
+    <button
+      mat-stroked-button
+      class="roles-btn"
+      *ngIf="me.roles?.length"
+      [matMenuTriggerFor]="rolesMenu"
+      aria-label="Pokaż role"
+    >
+      Role ({{ me.roles.length }})
+      <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #rolesMenu="matMenu">
+      <ng-container *ngFor="let r of me.roles">
+        <button mat-menu-item disabled>
+          <mat-icon>badge</mat-icon>
+          <span>{{ r }}</span>
+        </button>
+      </ng-container>
+    </mat-menu>
+
+    <button mat-stroked-button class="logout-btn" (click)="logout()">Wyloguj</button>
+  </ng-container>
+
+  <ng-template #loggedOut>
+    <span class="logged-out">Niezalogowano</span>
+  </ng-template>
+</mat-toolbar>
+
+<mat-sidenav-container class="container">
+  <mat-sidenav #drawer class="sidenav" [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile">
+    <mat-nav-list (click)="closeOnMobile(drawer)">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-list-item routerLink="/employees" routerLinkActive="active">Employees</a>
+      <a mat-list-item routerLink="/roles" routerLinkActive="active">Roles</a>
+      <a mat-list-item routerLink="/teams" routerLinkActive="active">Teams</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
     <router-outlet></router-outlet>
-  </main>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

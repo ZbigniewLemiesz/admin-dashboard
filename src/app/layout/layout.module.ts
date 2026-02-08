@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
+import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { LayoutComponent } from './layout.component';
   ],
   imports: [
     CommonModule,
-    RouterModule   // ← TO MUSI BYĆ!
+    RouterModule,
+    MaterialModule
   ],
   exports: [
     LayoutComponent
