@@ -4,12 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 
 @NgModule({
-  declarations: [LoginComponent, ResetPasswordComponent],
+  declarations: [LoginComponent, ChangePasswordComponent],
   imports: [
     CommonModule,
     RouterModule,

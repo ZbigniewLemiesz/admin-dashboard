@@ -1,5 +1,10 @@
 <mat-toolbar color="primary" class="topbar">
-  <button mat-icon-button class="burger" (click)="drawer.toggle()" aria-label="Otwórz menu">
+  <button
+    mat-icon-button
+    class="burger"
+    (click)="drawer.toggle()"
+    aria-label="Otwórz menu"
+  >
     <mat-icon>menu</mat-icon>
   </button>
 
@@ -7,29 +12,55 @@
   <span class="spacer"></span>
 
   <ng-container *ngIf="auth.me$ | async as me; else loggedOut">
-    <span class="user-email" [title]="me.email">{{ me.email }}</span>
-
     <button
-      mat-stroked-button
-      class="roles-btn"
-      *ngIf="me.roles?.length"
-      [matMenuTriggerFor]="rolesMenu"
-      aria-label="Pokaż role"
+      mat-button
+      class="user-email"
+      [matMenuTriggerFor]="userMenu"
+      aria-label="Menu użytkownika"
+      [title]="me.email"
     >
-      Role ({{ me.roles.length }})
+      <mat-icon>account_circle</mat-icon>
+      <span class="user-email-text">{{ me.email }}</span>
       <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
     </button>
 
-    <mat-menu #rolesMenu="matMenu">
-      <ng-container *ngFor="let r of me.roles">
-        <button mat-menu-item disabled>
-          <mat-icon>badge</mat-icon>
-          <span>{{ r }}</span>
-        </button>
-      </ng-container>
-    </mat-menu>
+    <mat-menu #userMenu="matMenu">
+      <div class="menu-header">
+        {{ me.roles.length ? "Role: " + me.roles.length : "Brak ról" }}
+      </div>
 
-    <button mat-stroked-button class="logout-btn" (click)="logout()">Wyloguj</button>
+      <mat-divider></mat-divider>
+
+      <ng-container *ngIf="me.roles?.length; else noRoles">
+        <ng-container *ngFor="let r of me.roles">
+          <button mat-menu-item disabled>
+            <mat-icon>badge</mat-icon>
+            <span>{{ r }}</span>
+          </button>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #noRoles>
+        <button mat-menu-item disabled>
+          <mat-icon>info</mat-icon>
+          <span>Brak przypisanych ról</span>
+        </button>
+      </ng-template>
+
+      <mat-divider></mat-divider>
+
+      <button mat-menu-item routerLink="/auth/change-password">
+        <mat-icon>lock</mat-icon>
+        <span>Zmień hasło</span>
+      </button>
+
+      <mat-divider></mat-divider>
+
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Wyloguj
+      </button>
+    </mat-menu>
   </ng-container>
 
   <ng-template #loggedOut>
@@ -38,10 +69,19 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="container">
-  <mat-sidenav #drawer class="sidenav" [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+  >
     <mat-nav-list (click)="closeOnMobile(drawer)">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a mat-list-item routerLink="/employees" routerLinkActive="active">Employees</a>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active"
+        >Dashboard</a
+      >
+      <a mat-list-item routerLink="/employees" routerLinkActive="active"
+        >Employees</a
+      >
       <a mat-list-item routerLink="/roles" routerLinkActive="active">Roles</a>
       <a mat-list-item routerLink="/teams" routerLinkActive="active">Teams</a>
     </mat-nav-list>

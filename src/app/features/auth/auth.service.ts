@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, mapTo, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mapTo, switchMap, tap } from 'rxjs/operators';
 import { AuthMe } from './auth-me.model';
 
 @Injectable({ providedIn: 'root' })
@@ -58,5 +58,19 @@ export class AuthService {
   hasRole(role: string): boolean {
     const r = role.startsWith('ROLE_') ? role : `ROLE_${role}`;
     return this.meSubject.value?.roles?.includes(r) ?? false;
+  }
+
+  changePassword(
+    currentPassword: string,
+    newPassword: string,
+  ): Observable<HttpResponse<void>> {
+    const body = { currentPassword, newPassword };
+
+    return this.http
+      .post<void>(`${this.api}/auth/change-password`, body, {
+        withCredentials: true,
+        observe: 'response',
+      })
+      .pipe(switchMap((resp) => this.loadMe(true).pipe(map(() => resp))));
   }
 }
